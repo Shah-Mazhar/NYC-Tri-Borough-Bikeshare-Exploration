@@ -1,17 +1,22 @@
 # Bikeshare-Exploration-Model
 # install the pint function which works with units in python
+
 !pip install pint
 
 # Configure Jupyter so figures appear in the notebook
+
 %matplotlib inline
 
 # Configure Jupyter to display the assigned value after an assignment
+
 %config InteractiveShell.ast_node_interactivity='last_expr_or_assign'
 
 # import functions from the modsim library
+
 from modsim import *
 
 # set the random number generator
+
 np.random.seed(7)
 bikeshare= State(A=30,B=30,C=30)
 #step function takes state which are the locations and 3 different probablities of those locations with given probablities.
