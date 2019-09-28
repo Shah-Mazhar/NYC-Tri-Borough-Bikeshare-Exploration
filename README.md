@@ -18,8 +18,11 @@ from modsim import *
 # set the random number generator
 
 np.random.seed(7)
+
+# Assiging initial values for 3 different locations
 bikeshare= State(A=30,B=30,C=30)
-#step function takes state which are the locations and 3 different probablities of those locations with given probablities.
+
+# step function takes state which are the locations and 3 different probablities of those locations with given probablities.
 
 def step(state, p1, p2, p3):
 
@@ -32,7 +35,7 @@ def step(state, p1, p2, p3):
     if flip(p3):
         bike_to_C(state)
 
-#bike_to_A, bike_to_B, bike_to_C contains logic of eliminating the chance of having negative bikes, and increase or decrease bikes depending on which state the bike goes to. 
+# bike_to_A, bike_to_B, bike_to_C contains logic of eliminating the chance of having negative bikes, and increase or decrease bikes depending on which state the bike goes to. 
 
 def bike_to_A(state):
     if state.C == 0:
