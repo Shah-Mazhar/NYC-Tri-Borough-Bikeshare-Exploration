@@ -78,6 +78,7 @@ def decorate_bikeshare():
     decorate(title='Bikeshare Model',
              xlabel='Time(hrs)', 
              ylabel='Number of bikes')
+
 # run_simulation function takes 3 states, it's probablilites, and the time steps, it runs a for loop and generate numbers for different time steps and number of bikes for each location. 
 
 def run_simulation(state, p1, p2,p3, num_steps):
