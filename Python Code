@@ -1,101 +1,123 @@
-# Bikeshare-Exploration-Model
+## Getting  Libraries & Functions
 # install the pint function which works with units in python
-
 !pip install pint
 
 # Configure Jupyter so figures appear in the notebook
-
 %matplotlib inline
 
 # Configure Jupyter to display the assigned value after an assignment
-
 %config InteractiveShell.ast_node_interactivity='last_expr_or_assign'
 
 # import functions from the modsim library
-
 from modsim import *
 
 # set the random number generator
-
 np.random.seed(7)
 
-# Assiging initial values for 3 different locations
-bikeshare= State(A=30,B=30,C=30)
+## Initializing values for 3 boroughs
+bikeshare= State(Brooklyn=30,Bronx=30,Queens=30)
 
-# step function takes state which are the locations and 3 different probablities of those locations with given probablities.
-
+## Defining Functions
 def step(state, p1, p2, p3):
+"""Simulate one minute of time.
+    
+    state: bikeshare State object
+    p1: probability of a bike coming to Brooklyn
+    p2: probability of a bike coming to Bronx
+    p3: probability of a bike coming to Queens
+    """
 
     if flip(p1):
-        bike_to_A(state)
+        bike_to_Brooklyn(state)
     
     if flip(p2):
-        bike_to_B(state)
+        bike_to_Bronx(state)
         
     if flip(p3):
-        bike_to_C(state)
+        bike_to_Queens(state)
 
-# bike_to_A, bike_to_B, bike_to_C contains logic of eliminating the chance of having negative bikes, and increase or decrease bikes depending on which state the bike goes to. 
+def bike_to_Brooklyn(state):
+    """Move one bike from Quens to Brooklyn or
+       Move one bike from Bronx to Brooklyn.
+    
+    state: bikeshare State object
+    """
+    if state.Queens == 0:
+        return
+    state.Queens -= 1
+    state.Brooklyn += 1
+    
+    if state.Bronx==0:
+        return
+    state.Bronx -= 1
+    state.Brooklyn += 1
+    
+def bike_to_Bronx(state):
+    """Move one bike from Brooklyn to Bronx or
+       Move one bike from Queens to Bronx.
+    
+    state: bikeshare State object
+    """
+    if state.Brooklyn == 0:
+        return
+    state.Brooklyn -= 1
+    state.Bronx += 1
+    
+    if state.Queens==0:
+        return
+    state.Queens -= 1
+    state.Bronx += 1
+    
+def bike_to_Queens(state):
+    """Move one bike from Bronx to Queens or
+       Move one bike from Brooklyn to Queens.
+    
+    state: bikeshare State object
+    """
 
-def bike_to_A(state):
-    if state.C == 0:
+    if state.Bronx == 0:
         return
-    state.C -= 1
-    state.A += 1
+    state.Bronx -= 1
+    state.Queens += 1
     
-    if state.B==0:
+    if state.Brooklyn==0:
         return
-    state.B -= 1
-    state.A += 1
-    
-def bike_to_B(state):
+    state.Brooklyn -= 1
+    state.Queens += 1
 
-    if state.A == 0:
-        return
-    state.A -= 1
-    state.B += 1
-    
-    if state.C==0:
-        return
-    state.C -= 1
-    state.B += 1
-    
-def bike_to_C(state):
-
-    if state.B == 0:
-        return
-    state.B -= 1
-    state.C += 1
-    
-    if state.A==0:
-        return
-    state.A -= 1
-    state.C += 1
-    
-# decorate_bikeshare function is how the plot will be and label title, x and y axis, after given exact variables for bikeshare.
-
+## Defining Simulation and TimeSeries
 def decorate_bikeshare():
-    decorate(title='Bikeshare Model',
+    """Add a title and label the axes."""
+    decorate(title='NYC Tri-Borough Bikeshare Exploration',
              xlabel='Time(hrs)', 
              ylabel='Number of bikes')
 
-# run_simulation function takes 3 states, it's probablilites, and the time steps, it runs a for loop and generate numbers for different time steps and number of bikes for each location. 
-
 def run_simulation(state, p1, p2,p3, num_steps):
-    resultsA = TimeSeries(state.A)    
-    resultsB = TimeSeries(state.B)
-    resultsC = TimeSeries(state.C) 
+     """Simulate the given number of time steps.
+    
+    p1: probability of a customer's arrival at Brooklyn
+    p2: probability of a customer's arrival at Bronx
+    p3: probability of a customer's arrival at Queens
+    num_steps: number of time steps
+    """
+    resultsBrooklyn = TimeSeries(state.Brooklyn)    
+    resultsBronx = TimeSeries(state.Bronx)
+    resultsQueens = TimeSeries(state.Queens) 
     for i in range(num_steps):
         step(state, p1, p2, p3)
-        resultsA[i] = state.A
-        resultsB[i] = state.B
-        resultsC[i] = state.C
-    plot(resultsA, label='A')
-    plot(resultsB, label='B')
-    plot(resultsC, label='C')
+        resultsBrooklyn[i] = state.Brooklyn
+        resultsBronx[i] = state.Bronx
+        resultsQueens[i] = state.Queens
+    plot(resultsBrooklyn, label='Brooklyn')
+    plot(resultsBronx, label='Bronx')
+    plot(resultsQueens, label='Queens')
+   
+## Result and Plot
+#Giving initial value of the number bikes for each borough
+bikeshare= State(Brooklyn=30,Bronx=30,Queens=30)
 
-# After giving values of 3 different states, their probabilities and time steps, it generates this plot.
+#running the run_simulation() function with defined state, probabilities and time steps
+run_simulation(bikeshare, 0.33, 0.33,0.33, 16)
 
-bikeshare= State(A=30,B=30,C=30)
-run_simulation(bikeshare, 0.33, 0.33,0.33, 24)
+#running the decorate_bikeshare() function to plot a chart
 decorate_bikeshare()
