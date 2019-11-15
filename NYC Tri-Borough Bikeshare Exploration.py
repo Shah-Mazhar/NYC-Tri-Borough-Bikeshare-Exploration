@@ -1,6 +1,6 @@
 ## Getting  Libraries & Functions
 # install the pint function which works with units in python
-!pip install pint
+pip install pint
 
 # Configure Jupyter so figures appear in the notebook
 %matplotlib inline
