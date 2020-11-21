@@ -2,17 +2,14 @@
 # install the pint function which works with units in python
 pip install pint
 
-# Configure Jupyter so figures appear in the notebook
-%matplotlib inline
-
-# Configure Jupyter to display the assigned value after an assignment
-%config InteractiveShell.ast_node_interactivity='last_expr_or_assign'
+# install modsimpy which import modsim
+import modsimpy
 
 # import functions from the modsim library
 from modsim import *
 
-# set the random number generator
-np.random.seed(7)
+# import matplotlib.pyplot which works with graphs and visulization
+import matplotlib.pyplot as plt
 
 ## Initializing values for 3 boroughs
 bikeshare= State(Brooklyn=30,Bronx=30,Queens=30)
@@ -85,13 +82,6 @@ def bike_to_Queens(state):
     state.Brooklyn -= 1
     state.Queens += 1
 
-## Defining Simulation and TimeSeries
-def decorate_bikeshare():
-    """Add a title and label the axes."""
-    decorate(title='NYC Tri-Borough Bikeshare Exploration',
-             xlabel='Time(hrs)', 
-             ylabel='Number of bikes')
-
 def run_simulation(state, p1, p2,p3, num_steps):
      """Simulate the given number of time steps.
     
@@ -108,9 +98,12 @@ def run_simulation(state, p1, p2,p3, num_steps):
         resultsBrooklyn[i] = state.Brooklyn
         resultsBronx[i] = state.Bronx
         resultsQueens[i] = state.Queens
-    plot(resultsBrooklyn, label='Brooklyn')
-    plot(resultsBronx, label='Bronx')
-    plot(resultsQueens, label='Queens')
+    plt.plot(resultsBrooklyn, label='Brooklyn')
+    plt.plot(resultsBronx, label='Bronx')
+    plt.plot(resultsQueens, label='Queens')
+    decorate(title='NYC Tri-Borough Bikeshare Exploration',
+             xlabel='Time(hrs)', 
+             ylabel='Number of bikes')
    
 ## Result and Plot
 #Giving initial value of the number bikes for each borough
@@ -118,6 +111,3 @@ bikeshare= State(Brooklyn=30,Bronx=30,Queens=30)
 
 #running the run_simulation() function with defined state, probabilities and time steps
 run_simulation(bikeshare, 0.33, 0.33,0.33, 16)
-
-#running the decorate_bikeshare() function to plot a chart
-decorate_bikeshare()
