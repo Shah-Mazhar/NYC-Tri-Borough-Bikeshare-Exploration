@@ -1,4 +1,5 @@
-## Getting  Libraries & Functions
+# Getting Libraries & Functions
+
 # install the pint function which works with units in python
 pip install pint
 
